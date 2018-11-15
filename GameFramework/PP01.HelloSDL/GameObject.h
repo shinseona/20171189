@@ -1,6 +1,8 @@
 #pragma once
 
-class LoaderParams;
+#include <SDL.h>
+#include "LoaderParams.h"
+#include <vector>
 
 class GameObject
 {
@@ -11,4 +13,4 @@ public:
 protected:
 	GameObject(const LoaderParams* pParams) {}
 	virtual ~GameObject() {}
-}; 
+};
