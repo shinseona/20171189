@@ -18,6 +18,11 @@ public:
 	void handleEvents();
 	void clean();
 	bool running() { return m_bRunning; }
+	void quit() 
+	{
+		m_bRunning = false;
+		
+	}
 
 	static Game* Instance()
 	{
@@ -48,14 +53,15 @@ private:
 	int m_currentFrame;
 	int m_currentFrame2;
 	bool m_bRunning;
+	
 
 	std::vector<GameObject*> m_gameObjects;
 
 	GameObject* m_go;
 	GameObject* m_player;
 	GameObject* m_enemy;
-	GameObject* m_monster;
-	GameObject* m_monster2;
+	GameObject* a;
+	GameObject* b;
 
 };
 

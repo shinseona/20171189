@@ -2,7 +2,9 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "TextureManager.h"
+#include "InputHandler.h"
 #include <iostream>
+#include "bullet.h"
 
 Game* Game::s_pInstance = 0;
 
@@ -23,8 +25,12 @@ bool Game::init(const char* title, int xpos, int ypos,
 		{
 			return false;
 		}
+	
 		m_gameObjects.push_back(new Player(new LoaderParams(100, 100, 128, 82, "animate")));
+		
 		m_gameObjects.push_back(new Enemy(new LoaderParams(300, 300, 128, 82, "animate")));
+	
+		
 	}
 	else {
 		return false;
@@ -59,7 +65,7 @@ void Game::update() {
 void Game::clean()
 {
 	std::cout << "cleaning game\n";
-
+	TheInputHandler::Instance()->clean();
 	SDL_DestroyWindow(m_pWindow);
 	SDL_DestroyRenderer(m_pRenderer);
 	SDL_Quit();
@@ -68,6 +74,7 @@ void Game::clean()
 void Game::handleEvents()
 {
 	SDL_Event event;
+	TheInputHandler::Instance()->update();
 	if (SDL_PollEvent(&event))
 	{
 		switch (event.type)

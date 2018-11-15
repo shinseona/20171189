@@ -3,8 +3,8 @@
 
 Game* g_game = 0;
 
-const int FPS = 10;
-const int DELAY_TIME = 1000.0f / FPS;
+const int FPS = 60;
+const float DELAY_TIME = 1000.0f / FPS;
 
 
 Uint32 frameStart, frameTime;
@@ -14,7 +14,7 @@ Uint32 frameStart, frameTime;
 int main(int argc, char*argv[])
 {
 	std::cout << "game init attempt...\n";
-	if (TheGame::Instance()->init("Chapter 11", 100, 100, 640, 480, false))
+	if (TheGame::Instance()->init("Chapter 13", 100, 100, 640, 480, false))
 	{
 		std::cout << "game init success!\n";
 		while (TheGame::Instance()->running())
