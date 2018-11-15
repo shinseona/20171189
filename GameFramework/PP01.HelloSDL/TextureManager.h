@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SDL.h"
+#include <SDL.h>
 #include <SDL_image.h>
 #include <map>
 
@@ -36,4 +36,4 @@ private:
 
 };
 
-typedef TextureManager TheTextureManager;
+typedef TextureManager TheTextureManager; 
