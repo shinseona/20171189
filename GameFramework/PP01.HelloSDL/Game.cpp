@@ -1,8 +1,8 @@
-#include <iostream>
+﻿#include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
-#include "Game.h"
-using namespace std;
+#include "game.h"
+#include "TextureManager.h"
 
 bool Game::init(const char* title, int xpos, int ypos,
 	int width, int height, bool fullscreen)
@@ -17,30 +17,49 @@ bool Game::init(const char* title, int xpos, int ypos,
 
 		m_bRunning = true;
 
-		m_textureManager.load("Asset/animate-alpha.png", "animate", m_pRenderer);
-		SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
+		if (!TheTextureManager::Instance()->load("assets/animate-alpha.png",
+			"animate", m_pRenderer))
+		{
+			return false;
+		}
+
+		SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
+
+		/*SDL_Surface* pTempSurface = IMG_Load("assets/animate-alpha.png");
+		m_pTexture = SDL_CreateTextureFromSurface(m_pRenderer,
+		pTempSurface);
+		SDL_FreeSurface(pTempSurface);
+		m_sourceRectangle.w = 128;
+		m_sourceRectangle.h = 82;
+		m_destinationRectangle.x = m_sourceRectangle.x = 0;
+		m_destinationRectangle.y = m_sourceRectangle.y = 0;
+		m_destinationRectangle.w = m_sourceRectangle.w;
+		m_destinationRectangle.h = m_sourceRectangle.h;
+		SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);*/
+
+
 	}
-	else
-	{
+	else {
 		return false; // sdl could not initialize
 	}
 	return true;
 }
 
+void Game::update()
+{
+	m_currentFrame = int(((SDL_GetTicks() / 100) % 6));
+}
+
 void Game::render()
 {
 	SDL_RenderClear(m_pRenderer);
-	m_textureManager.draw("animate", 0, 0, 128, 82, m_pRenderer);
-	m_textureManager.drawFrame("animate", 100, 100, 128, 82, 1, m_currentFrame, m_pRenderer);
-	SDL_RenderPresent(m_pRenderer);
-}
+	TheTextureManager::Instance()->draw("animate", 0, 0, 128, 82,
+		m_pRenderer);
 
-void Game::clean()
-{
-	cout << "cleaning game\n";
-	SDL_DestroyWindow(m_pWindow);
-	SDL_DestroyRenderer(m_pRenderer);
-	SDL_Quit();
+	TheTextureManager::Instance()->drawFrame("animate", 100, 100,
+		128, 82, 1, m_currentFrame, m_pRenderer);
+
+	SDL_RenderPresent(m_pRenderer);
 }
 
 void Game::handleEvents()
@@ -53,13 +72,17 @@ void Game::handleEvents()
 		case SDL_QUIT:
 			m_bRunning = false;
 			break;
+
 		default:
 			break;
 		}
 	}
 }
 
-void Game::update()
+void Game::clean()
 {
-	m_currentFrame = int(((SDL_GetTicks() / 100) % 6));
+	std::cout << "cleaning game\n";
+	SDL_DestroyWindow(m_pWindow);
+	SDL_DestroyRenderer(m_pRenderer);
+	SDL_Quit();
 }
