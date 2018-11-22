@@ -4,20 +4,22 @@
 #include <vector>
 #include <SDL.h>
 #include <SDL_image.h>
-
+#include "GameStateMachine.h"
 class TextureManagerr;
 class GameObject;
 using namespace std;
 
 class Game
 {
-public:
+public:	
+	GameStateMachine* m_pGameStateMachine;
 	bool init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
 	void render();
 	void update();
 	void handleEvents();
 	void clean();
 	bool running() { return m_bRunning; }
+
 	void quit() 
 	{
 		m_bRunning = false;
